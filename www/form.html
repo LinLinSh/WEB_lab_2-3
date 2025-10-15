@@ -96,20 +96,6 @@
       background-color: #2980b9;
     }
 
-    #result {
-      margin-top: 24px;
-      padding: 16px;
-      background: #e8f4ff;
-      border-radius: 8px;
-      display: none;
-      animation: fadeIn 0.5s;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-
     .highlight {
       animation: pulse 1.5s infinite;
     }
@@ -124,7 +110,7 @@
   <div class="form-container">
     <h1>Запись к врачу</h1>
 
-    <form id="doctorForm">
+    <form id="doctorForm" action="process.php" method="POST">
       <label for="name">Имя:</label>
       <input type="text" id="name" name="name" required>
 
@@ -134,28 +120,26 @@
       <label for="doctor">Врач:</label>
       <select id="doctor" name="doctor" required>
         <option value="">— Выберите —</option>
-        <option value="therapist">Терапевт</option>
-        <option value="dentist">Стоматолог</option>
-        <option value="cardiologist">Кардиолог</option>
-        <option value="dermatologist">Дерматолог</option>
+        <option value="Терапевт">Терапевт</option>
+        <option value="Стоматолог">Стоматолог</option>
+        <option value="Кардиолог">Кардиолог</option>
+        <option value="Дерматолог">Дерматолог</option>
       </select>
 
       <div class="checkbox-group">
         <label>
-          <input type="checkbox" name="first_visit" value="yes">
+          <input type="checkbox" name="first_visit" value="1">
           Первая консультация
         </label>
       </div>
 
       <div class="radio-group">
-        <label><input type="radio" name="visit_type" value="on-site"> Очно</label>
-        <label><input type="radio" name="visit_type" value="online"> Онлайн</label>
+        <label><input type="radio" name="visit_type" value="Очно" required> Очно</label>
+        <label><input type="radio" name="visit_type" value="Онлайн" required> Онлайн</label>
       </div>
 
       <button type="submit">Записаться</button>
     </form>
-
-    <div id="result"></div>
   </div>
 
   <script src="script.js"></script>
