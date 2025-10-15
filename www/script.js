@@ -1,7 +1,7 @@
 let lastActivity = Date.now();
 let reminderTimeout = null;
 
-// Сброс таймера при активности
+// Сброс таймера
 document.addEventListener('input', () => {
   lastActivity = Date.now();
   resetReminder();
