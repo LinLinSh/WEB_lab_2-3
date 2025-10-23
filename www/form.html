@@ -1,9 +1,8 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Р—Р°РїРёСЃСЊ Рє РІСЂР°С‡Сѓ</title>
+  <title>Запись к врачу</title>
   <style>
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -96,6 +95,20 @@
       background-color: #2980b9;
     }
 
+    #result {
+      margin-top: 24px;
+      padding: 16px;
+      background: #e8f4ff;
+      border-radius: 8px;
+      display: none;
+      animation: fadeIn 0.5s;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
     .highlight {
       animation: pulse 1.5s infinite;
     }
@@ -108,42 +121,43 @@
 </head>
 <body>
   <div class="form-container">
-    <h1>Р—Р°РїРёСЃСЊ Рє РІСЂР°С‡Сѓ</h1>
+    <h1>Запись к врачу</h1>
 
-    <form id="doctorForm" action="process.php" method="POST">
-      <label for="name">РРјСЏ:</label>
+    <form id="doctorForm" action="save.php" method="POST">
+      <label for="name">Имя:</label>
       <input type="text" id="name" name="name" required>
 
-      <label for="age">Р’РѕР·СЂР°СЃС‚:</label>
+      <label for="age">Возраст:</label>
       <input type="number" id="age" name="age" min="1" max="120" required>
 
-      <label for="doctor">Р’СЂР°С‡:</label>
+      <label for="doctor">Врач:</label>
       <select id="doctor" name="doctor" required>
-        <option value="">вЂ” Р’С‹Р±РµСЂРёС‚Рµ вЂ”</option>
-        <option value="РўРµСЂР°РїРµРІС‚">РўРµСЂР°РїРµРІС‚</option>
-        <option value="РЎС‚РѕРјР°С‚РѕР»РѕРі">РЎС‚РѕРјР°С‚РѕР»РѕРі</option>
-        <option value="РљР°СЂРґРёРѕР»РѕРі">РљР°СЂРґРёРѕР»РѕРі</option>
-        <option value="Р”РµСЂРјР°С‚РѕР»РѕРі">Р”РµСЂРјР°С‚РѕР»РѕРі</option>
+        <option value="">— Выберите —</option>
+        <option value="therapist">Терапевт</option>
+        <option value="dentist">Стоматолог</option>
+        <option value="cardiologist">Кардиолог</option>
+        <option value="dermatologist">Дерматолог</option>
       </select>
 
       <div class="checkbox-group">
         <label>
-          <input type="checkbox" name="first_visit" value="1">
-          РџРµСЂРІР°СЏ РєРѕРЅСЃСѓР»СЊС‚Р°С†РёСЏ
+          <input type="checkbox" name="first_visit" value="yes">
+          Первая консультация
         </label>
       </div>
 
       <div class="radio-group">
-        <label><input type="radio" name="visit_type" value="РћС‡РЅРѕ" required> РћС‡РЅРѕ</label>
-        <label><input type="radio" name="visit_type" value="РћРЅР»Р°Р№РЅ" required> РћРЅР»Р°Р№РЅ</label>
+        <label><input type="radio" name="visit_type" value="on-site"> Очно</label>
+        <label><input type="radio" name="visit_type" value="online"> Онлайн</label>
       </div>
 
-      <button type="submit">Р—Р°РїРёСЃР°С‚СЊСЃСЏ</button>
+      <button type="submit">Записаться</button>
     </form>
+
+    <div id="result"></div>
   </div>
 
   <script src="script.js"></script>
 </body>
 </html>
-
 
