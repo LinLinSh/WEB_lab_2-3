@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 class UserInfo {
     public static function getInfo(): array {
         return [

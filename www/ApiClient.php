@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 require_once __DIR__ . '/../vendor/autoload.php';
 use GuzzleHttp\Client;
 
@@ -16,7 +16,7 @@ class ApiClient {
         try {
             $response = $this->client->get($url);
             $body = $response->getBody()->getContents();
-            return json_decode($body, true) ?: ['error' => 'Empty or invalid JSON'];
+            return json_decode($body, true) ?: ['error' => 'Invalid JSON'];
         } catch (\Exception $e) {
             return ['error' => $e->getMessage()];
         }
