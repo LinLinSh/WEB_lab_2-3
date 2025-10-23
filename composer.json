@@ -1,0 +1,7 @@
+{
+    "name": "web/lab2",
+    "description": "ЛР4: Запись к врачу + API",
+    "require": {
+        "guzzlehttp/guzzle": "^7.10"
+    }
+}
