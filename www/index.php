@@ -1,7 +1,7 @@
-﻿<?php
+<?php
 session_start();
 
-// Обработка AJAX-запроса на обновление API
+// AJAX-обработчик
 if (($_GET['action'] ?? null) === 'refresh_api') {
     header('Content-Type: application/json; charset=utf-8');
     require_once 'ApiClient.php';
@@ -31,7 +31,6 @@ if (($_GET['action'] ?? null) === 'refresh_api') {
     body { font-family: Arial, sans-serif; max-width: 900px; margin: 20px auto; padding: 0 15px; }
     .section { margin: 25px 0; padding: 15px; background: #f9f9f9; border-radius: 8px; }
     h2 { color: #2c3e50; }
-    pre { background: #eee; padding: 10px; border-radius: 4px; overflow-x: auto; }
     button { padding: 8px 16px; background: #3498db; color: white; border: none; border-radius: 4px; cursor: pointer; }
     button:hover { background: #2980b9; }
     .error { color: red; }
@@ -54,7 +53,7 @@ if (($_GET['action'] ?? null) === 'refresh_api') {
       $label = $labels[$key] ?? $key;
       if ($key === 'doctor') $value = $doctorMap[$value] ?? $value;
       if ($key === 'visit_type') $value = $visitMap[$value] ?? $value;
-      echo "<p><b>{$label}:</b> " . htmlspecialchars($value) . "</p>";
+      echo "<p><b>{$label}:</b> " . htmlspecialchars($value, ENT_QUOTES, 'UTF-8') . "</p>";
   endforeach;
   echo isset($_SESSION['form_data']['first_visit']) ? "<p><b>Первая консультация:</b> Да</p>" : "<p><b>Первая консультация:</b> Нет</p>";
   ?>
@@ -65,7 +64,7 @@ if (($_GET['action'] ?? null) === 'refresh_api') {
 <div class="section">
   <h2>Информация о пользователе</h2>
   <?php foreach ($_SESSION['user_info'] as $key => $val): ?>
-    <p><b><?= htmlspecialchars($key) ?>:</b> <?= htmlspecialchars($val) ?></p>
+    <p><b><?= htmlspecialchars($key, ENT_QUOTES, 'UTF-8') ?>:</b> <?= htmlspecialchars($val, ENT_QUOTES, 'UTF-8') ?></p>
   <?php endforeach; ?>
 </div>
 <?php endif; ?>
@@ -73,7 +72,7 @@ if (($_GET['action'] ?? null) === 'refresh_api') {
 <?php if (isset($_COOKIE['last_submission'])): ?>
 <div class="section">
   <h2>Последняя отправка формы</h2>
-  <p><?= htmlspecialchars($_COOKIE['last_submission']) ?></p>
+  <p><?= htmlspecialchars($_COOKIE['last_submission'], ENT_QUOTES, 'UTF-8') ?></p>
 </div>
 <?php endif; ?>
 
@@ -86,11 +85,11 @@ if (($_GET['action'] ?? null) === 'refresh_api') {
     if (file_exists($cacheFile)) {
         $cached = json_decode(file_get_contents($cacheFile), true);
         if (isset($cached['error'])) {
-            echo "<p class='error'>Ошибка API: " . htmlspecialchars($cached['error']) . "</p>";
+            echo "<p class='error'>Ошибка API: " . htmlspecialchars($cached['error'], ENT_QUOTES, 'UTF-8') . "</p>";
         } elseif (!empty($cached['results'])) {
             echo "<ul>";
             foreach ($cached['results'] as $item) {
-                echo "<li><a href='" . htmlspecialchars($item['url']) . "' target='_blank'>" . htmlspecialchars($item['title']) . "</a> — " . htmlspecialchars($item['news_site'] ?? '') . "</li>";
+                echo "<li><a href='" . htmlspecialchars($item['url'], ENT_QUOTES, 'UTF-8') . "' target='_blank'>" . htmlspecialchars($item['title'], ENT_QUOTES, 'UTF-8') . "</a> — " . htmlspecialchars($item['news_site'] ?? '', ENT_QUOTES, 'UTF-8') . "</li>";
             }
             echo "</ul>";
         } else {
@@ -114,7 +113,7 @@ document.getElementById('refreshBtn').addEventListener('click', async () => {
     let html = '';
     if (data.error) {
       html = `<p class="error">Ошибка: ${data.error}</p>`;
-    } else if (data.results && data.results.length) {
+    } else if (data.results?.length) {
       html = '<ul>';
       data.results.forEach(item => {
         html += `<li><a href="${item.url}" target="_blank">${item.title}</a> — ${item.news_site || ''}</li>`;
