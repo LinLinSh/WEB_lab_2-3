@@ -1,4 +1,4 @@
-services:
+﻿services:
   nginx:
     image: nginx:alpine
     container_name: lab2_nginx
@@ -9,11 +9,21 @@ services:
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
     depends_on:
       - php
+    networks:
+      - lab2_network
 
   php:
-    image: php:8.2-fpm
+    build: .
     container_name: lab2_php
     volumes:
       - ./www:/var/www/html
     expose:
       - "9000"
+    networks:
+      - lab2_network
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+networks:
+  lab2_network:
+    driver: bridge
