@@ -3,7 +3,7 @@
         'name' => 'web/lab2',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '68dcbbd4e9e769bdc41555d373d2e05f59cbd8fe',
+        'reference' => '42f8ad580b5f2b2b1547bc31ae32c2279ccd9472',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -103,7 +103,7 @@
         'web/lab2' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '68dcbbd4e9e769bdc41555d373d2e05f59cbd8fe',
+            'reference' => '42f8ad580b5f2b2b1547bc31ae32c2279ccd9472',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
