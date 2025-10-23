@@ -81,6 +81,10 @@ if (($_GET['action'] ?? null) === 'refresh_api') {
     .loading { color: #666; }
     .api-info { background: #e3f2fd; padding: 10px; border-radius: 4px; margin: 10px 0; }
     .demo-notice { background: #fff3cd; padding: 10px; border-radius: 4px; margin: 10px 0; border-left: 4px solid #ffc107; }
+    .ssl-on { color: green; font-weight: bold; }
+    .ssl-off { color: orange; font-weight: bold; }
+    .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .info-item { padding: 8px; background: white; border-radius: 4px; }
   </style>
 </head>
 <body>
@@ -104,6 +108,45 @@ if (($_GET['action'] ?? null) === 'refresh_api') {
   endforeach;
   echo isset($_SESSION['form_data']['first_visit']) ? "<p><b>Первая консультация:</b> Да</p>" : "<p><b>Первая консультация:</b> Нет</p>";
   ?>
+</div>
+<?php endif; ?>
+
+<?php if (isset($_SESSION['user_info'])): ?>
+<div class="section">
+  <h2>🔧 Информация о соединении</h2>
+  <div class="info-grid">
+    <?php 
+    $userInfo = $_SESSION['user_info'];
+    $sslStatus = ($userInfo['ssl_protocol'] === 'on' || $userInfo['ssl_protocol'] === '1') ? 'ssl-on' : 'ssl-off';
+    $sslText = ($userInfo['ssl_protocol'] === 'on' || $userInfo['ssl_protocol'] === '1') ? 'ВКЛЮЧЕНО' : 'ВЫКЛЮЧЕНО';
+    
+    $infoItems = [
+        '👤 IP адрес' => $userInfo['ip'],
+        '🌐 User Agent' => $userInfo['user_agent'],
+        '🕐 Время запроса' => $userInfo['time'],
+        '🔒 SSL протокол' => "<span class='$sslStatus'>$sslText</span>",
+        '🔑 SSL шифрование' => $userInfo['ssl_cipher'],
+        '📡 Протокол сервера' => $userInfo['server_protocol'],
+        '⚡ Метод запроса' => $userInfo['request_method'],
+        '🖥️ Серверное ПО' => $userInfo['server_software'],
+        '🐘 Версия PHP' => $userInfo['php_version'],
+        '📝 Скрипт' => $userInfo['script_name']
+    ];
+    
+    foreach ($infoItems as $label => $value): ?>
+        <div class="info-item">
+            <strong><?= $label ?>:</strong><br>
+            <?= $value ?>
+        </div>
+    <?php endforeach; ?>
+  </div>
+</div>
+<?php endif; ?>
+
+<?php if (isset($_COOKIE['last_submission'])): ?>
+<div class="section">
+  <h2>📅 Последняя отправка формы</h2>
+  <p><strong>Время:</strong> <?= htmlspecialchars($_COOKIE['last_submission']) ?></p>
 </div>
 <?php endif; ?>
 
@@ -136,7 +179,7 @@ if (($_GET['action'] ?? null) === 'refresh_api') {
             
             // Обрабатываем разные форматы API ответов
             if (isset($data['results'])) {
-                echo "<h3>🚀 Новости:</h3><ul>";
+                echo "<h3>🚀 Космические новости:</h3><ul>";
                 foreach ($data['results'] as $item) {
                     echo "<li><a href='" . htmlspecialchars($item['url']) . "' target='_blank'>" . htmlspecialchars($item['title']) . "</a>" . (isset($item['news_site']) ? " — " . htmlspecialchars($item['news_site']) : "") . "</li>";
                 }
@@ -185,7 +228,7 @@ document.getElementById('refreshBtn').addEventListener('click', async () => {
       }
       
       if (apiData.results) {
-        html += '<h3>🚀 Новости:</h3><ul>';
+        html += '<h3>🚀 Космические новости:</h3><ul>';
         apiData.results.forEach(item => {
           html += `<li><a href="${item.url}" target="_blank">${item.title}</a> — ${item.news_site || ''}</li>`;
         });

@@ -5,14 +5,20 @@ require_once 'ApiClient.php';
 // Устанавливаем заголовки ДО любого вывода
 header('Content-Type: text/plain; charset=utf-8');
 
-echo "Testing API connection...\n\n";
+echo "=== SSL и системная информация ===\n\n";
 
-// Проверяем доступные функции
-echo "=== PHP Functions ===\n";
-echo "file_get_contents: " . (function_exists('file_get_contents') ? '✅ Available' : '❌ Missing') . "\n";
-echo "stream_context_create: " . (function_exists('stream_context_create') ? '✅ Available' : '❌ Missing') . "\n";
-echo "json_decode: " . (function_exists('json_decode') ? '✅ Available' : '❌ Missing') . "\n";
-echo "allow_url_fopen: " . (ini_get('allow_url_fopen') ? '✅ Enabled' : '❌ Disabled') . "\n\n";
+// Проверяем SSL
+echo "SSL проверки:\n";
+echo "HTTPS: " . (isset($_SERVER['HTTPS']) ? '✅ ' . $_SERVER['HTTPS'] : '❌ off') . "\n";
+echo "SSL_CIPHER: " . ($_SERVER['SSL_CIPHER'] ?? '❌ none') . "\n";
+echo "SERVER_PORT: " . ($_SERVER['SERVER_PORT'] ?? 'unknown') . "\n";
+echo "REQUEST_SCHEME: " . ($_SERVER['REQUEST_SCHEME'] ?? 'unknown') . "\n\n";
+
+// Системная информация
+echo "=== Системная информация ===\n";
+echo "SERVER_SOFTWARE: " . ($_SERVER['SERVER_SOFTWARE'] ?? 'unknown') . "\n";
+echo "PHP_VERSION: " . PHP_VERSION . "\n";
+echo "allow_url_fopen: " . (ini_get('allow_url_fopen') ? '✅ On' : '❌ Off') . "\n\n";
 
 // Проверяем DNS
 echo "=== DNS Resolution Test ===\n";
