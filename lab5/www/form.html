@@ -1,0 +1,45 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Добавление студента - Лабораторная работа 5</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>➕ Добавление студента</h1>
+            <p>Заполните информацию о новом студенте</p>
+        </div>
+        
+        <div class="content">
+            <div class="card">
+                <form action="process.php" method="POST">
+                    <div class="form-group">
+                        <label for="name">👤 Имя студента:</label>
+                        <input type="text" id="name" name="name" required placeholder="Введите полное имя">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">📧 Электронная почта:</label>
+                        <input type="email" id="email" name="email" required placeholder="example@mail.ru">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="group_name">🎓 Группа:</label>
+                        <input type="text" id="group_name" name="group_name" required placeholder="Например: ИС-21">
+                    </div>
+                    
+                    <button type="submit" class="btn btn-success">💾 Сохранить студента</button>
+                </form>
+            </div>
+            
+            <div class="nav-links">
+                <a href="index.php" class="btn btn-secondary">🏠 На главную</a>
+                <a href="list.php" class="btn">👥 Список студентов</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
