@@ -24,9 +24,9 @@ services:
     container_name: lab5_db
     environment:
       MYSQL_ROOT_PASSWORD: rootpass
-      MYSQL_DATABASE: lab5_db
-      MYSQL_USER: lab5_user
-      MYSQL_PASSWORD: lab5_pass
+      MYSQL_DATABASE: clinic_db
+      MYSQL_USER: clinic_user
+      MYSQL_PASSWORD: clinic_pass
     ports:
       - "3307:3306"
     volumes:

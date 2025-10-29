@@ -6,45 +6,51 @@ header('Content-Type: text/html; charset=utf-8');
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Лабораторная работа 5 - Студенты</title>
+    <title>Медицинский центр - Запись на прием</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>🎓 Лабораторная работа 5</h1>
-            <p>Система управления студентами</p>
+            <h1>🏥 Медицинский центр "Здоровье"</h1>
+            <p>Запись на прием к врачу - быстро и удобно</p>
         </div>
         
         <div class="content">
             <div class="card">
                 <h2>📊 Статус системы</h2>
-                <p><strong>PHP работает корректно!</strong></p>
+                <p><strong>Система записи на прием работает корректно!</strong></p>
                 <p>Версия PHP: <?php echo phpversion(); ?></p>
                 
                 <?php
-                // Тест БД
                 try {
-                    $pdo = new PDO('mysql:host=db;dbname=lab5_db', 'lab5_user', 'lab5_pass');
+                    $pdo = new PDO('mysql:host=db;dbname=clinic_db', 'clinic_user', 'clinic_pass');
                     $pdo->exec("SET NAMES 'utf8mb4'");
                     echo '<div class="status success">✅ Подключение к БД успешно</div>';
                     
-                    // Создаем таблицу если её нет
-                    $sql = "CREATE TABLE IF NOT EXISTS students (
+                    $sql = "CREATE TABLE IF NOT EXISTS appointments (
                         id INT AUTO_INCREMENT PRIMARY KEY,
-                        name VARCHAR(100) NOT NULL,
-                        email VARCHAR(100) NOT NULL UNIQUE,
-                        group_name VARCHAR(50) NOT NULL,
+                        patient_name VARCHAR(100) NOT NULL,
+                        patient_phone VARCHAR(20) NOT NULL,
+                        doctor_name VARCHAR(100) NOT NULL,
+                        specialization VARCHAR(100) NOT NULL,
+                        appointment_date DATE NOT NULL,
+                        appointment_time TIME NOT NULL,
+                        symptoms TEXT,
+                        status ENUM('pending', 'confirmed', 'completed', 'cancelled') DEFAULT 'pending',
                         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
                     ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci";
                     
                     $pdo->exec($sql);
-                    echo '<div class="status success">✅ Таблица students создана</div>';
+                    echo '<div class="status success">✅ Таблица записей создана</div>';
                     
-                    // Показываем количество студентов
-                    $stmt = $pdo->query("SELECT COUNT(*) as count FROM students");
+                    $stmt = $pdo->query("SELECT COUNT(*) as count FROM appointments");
                     $count = $stmt->fetch()['count'];
-                    echo "<p><strong>Количество студентов в базе:</strong> $count</p>";
+                    echo "<p><strong>Всего записей в системе:</strong> $count</p>";
+                    
+                    $stmt = $pdo->query("SELECT COUNT(*) as pending FROM appointments WHERE status = 'pending'");
+                    $pending = $stmt->fetch()['pending'];
+                    echo "<p><strong>Ожидают подтверждения:</strong> <span class='status pending'>$pending</span></p>";
                     
                 } catch (PDOException $e) {
                     echo '<div class="status error">❌ Ошибка БД: ' . $e->getMessage() . '</div>';
@@ -52,9 +58,29 @@ header('Content-Type: text/html; charset=utf-8');
                 ?>
             </div>
             
+            <div class="card">
+                <h2>👨‍⚕️ Наши врачи</h2>
+                <div class="doctor-card">
+                    <h3>Доктор Иванова А.П.</h3>
+                    <p>💊 Терапевт</p>
+                    <p>📅 График: Пн-Пт, 9:00-18:00</p>
+                </div>
+                <div class="doctor-card">
+                    <h3>Доктор Петров С.М.</h3>
+                    <p>🦷 Стоматолог</p>
+                    <p>📅 График: Вт-Сб, 10:00-19:00</p>
+                </div>
+                <div class="doctor-card">
+                    <h3>Доктор Сидорова Е.В.</h3>
+                    <p>👁️ Офтальмолог</p>
+                    <p>📅 График: Пн-Ср, 8:00-17:00</p>
+                </div>
+            </div>
+            
             <div class="nav-links">
-                <a href="form.html" class="btn">➕ Добавить студента</a>
-                <a href="list.php" class="btn btn-secondary">👥 Список студентов</a>
+                <a href="appointment.html" class="btn">📅 Записаться на прием</a>
+                <a href="appointments.php" class="btn btn-secondary">📋 Все записи</a>
+                <a href="doctors.php" class="btn btn-info">👨‍⚕️ Расписание врачей</a>
             </div>
         </div>
     </div>
